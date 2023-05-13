@@ -1,0 +1,36 @@
+.ranking{
+  margin-top:105px;
+  border:1px solid rgb(255, 255, 255);
+  font-size:20px;
+  font-style:italic;
+  font-weight: bold;
+  color:white;
+  background-color: rgb(253, 155, 172);
+}
+
+.ranking_contents{
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  width:700px;
+  border:1px solid rgb(255, 255, 255);
+}
+.ranking_img{
+  width:100px;
+  height:auto;
+  margin-right:20px;
+}
+
+.ranking_score{
+  margin-right:10px;
+  border-left:1px solid white;
+  padding:10px 40px;
+  font-size:25px;
+}
+
+.no_game{
+  margin-top: 105px;
+  font-weight: bold;
+  padding:30px;
+  font-size:25px;
+}
