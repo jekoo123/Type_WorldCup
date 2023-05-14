@@ -2,7 +2,6 @@ import React from "react";
 import "./ranking.css";
 
 export const Ranking = () => {
-  
   const isDataExists = localStorage.getItem("myData") !== null;
   let myArray = []
   if (isDataExists) {

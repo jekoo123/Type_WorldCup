@@ -42,6 +42,7 @@ export const WorldCup = () => {
   const [game, setGame] = useState([]);
   const [round, setRound] = useState(0);
   const [nextGame, setNextGame] = useState([]);
+  const [selectedImg, setSelectedImg] = useState(null);
 
   useEffect(() => {
     setGame(
@@ -63,6 +64,15 @@ export const WorldCup = () => {
     }
   }, [round]);
 
+  useEffect(() => {
+    if (selectedImg !== null) {
+      const timer = setTimeout(() => {
+        setSelectedImg(null);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [selectedImg]);
+
   if (game.length === 1) {
     return (
       <div className="winner_container">
@@ -78,6 +88,14 @@ export const WorldCup = () => {
   if (game.length === 0 || round + 1 > game.length / 2)
     return <p>로딩중입니다</p>;
 
+  const handleClick = (img, rankFunction) => {
+    setSelectedImg(img.id);
+    rankFunction();
+    setTimeout(() => {
+      setNextGame((prev) => prev.concat(img));
+      setRound((round) => round + 1);
+    }, 1500);
+  };
 
   const rank = (array, distribute) => {
     const isDataExists = localStorage.getItem("myData") !== null;
@@ -104,15 +122,25 @@ export const WorldCup = () => {
       const temp = JSON.stringify(myArray);
       localStorage.setItem("myData", temp);
     } else {
-      //여기서도 넣는걸로 바꿔줘야 처음 게임해도 데이터 생김!!
+      candidate.forEach((e) => {
+        if (distribute === 0) {
+          if (e.id === array[0].id) {
+            e.score += 2;
+          } else if (e.id === array[1].id) {
+            e.score += 1;
+          }
+        } else if (distribute === 1) {
+          if (e.id === array[1].id) {
+            e.score += 2;
+          } else if (e.id === array[0].id) {
+            e.score += 1;
+          }
+        }
+      });
       const temp = JSON.stringify(candidate);
       localStorage.setItem("myData", temp);
     }
   };
-
-
-
-
 
   return (
     <div className="game_container">
@@ -134,55 +162,37 @@ export const WorldCup = () => {
         <div className="img_container">
           <img
             src={game[round * 2].src}
-            onClick={() => {
-              setNextGame((prev) => prev.concat(game[round * 2]));
-              setRound((round) => round + 1);
-              if (game.length === 2) {
-                rank([game[round * 2], game[round * 2 + 1]], 0);
-              }
-            }}
+            onClick={() =>
+              handleClick(game[round * 2], () => {
+                if (game.length === 2) {
+                  rank([game[round * 2], game[round * 2 + 1]], 0);
+                }
+              })
+            }
             alt="img1"
-            className="img"
+            className={`img ${
+              selectedImg === game[round * 2].id ? "img_enlarge" : ""
+            }`}
           />
-          <div
-            className="img_name"
-            onClick={() => {
-              setNextGame((prev) => prev.concat(game[round * 2]));
-              setRound((round) => round + 1);
-              if (game.length === 2) {
-                rank([game[round * 2], game[round * 2 + 1]], 0);
-              }
-            }}
-          >
-            {game[round * 2].name}
-          </div>
+          <div className="img_name">{game[round * 2].name}</div>
         </div>
 
         <div className="img_container">
           <img
             src={game[round * 2 + 1].src}
-            onClick={() => {
-              setNextGame((prev) => prev.concat(game[round * 2 + 1]));
-              setRound((round) => round + 1);
-              if (game.length === 2) {
-                rank([game[round * 2], game[round * 2 + 1]], 1);
-              }
-            }}
+            onClick={() =>
+              handleClick(game[round * 2 + 1], () => {
+                if (game.length === 2) {
+                  rank([game[round * 2], game[round * 2 + 1]], 1);
+                }
+              })
+            }
             alt="img2"
-            className="img"
+            className={`img ${
+              selectedImg === game[round * 2 + 1].id ? "img_enlarge" : ""
+            }`}
           />
-          <div
-            className="img_name"
-            onClick={() => {
-              setNextGame((prev) => prev.concat(game[round * 2 + 1]));
-              setRound((round) => round + 1);
-              if (game.length === 2) {
-                rank([game[round * 2], game[round * 2 + 1]], 1);
-              }
-            }}
-          >
-            {game[round * 2 + 1].name}
-          </div>
+          <div className="img_name">{game[round * 2 + 1].name}</div>
         </div>
       </div>
     </div>

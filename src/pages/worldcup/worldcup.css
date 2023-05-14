@@ -16,7 +16,7 @@
   width:370px;
   height: auto;
   border-radius: 10px;
-  border:1px solid pink;
+  border:3px solid pink;
 }
 .winner_container{
   display:flex;
@@ -55,9 +55,10 @@
   border-radius: 10px;
   width:370px;
   text-align: center;
+  text-shadow: 2px 1px 1px white;
 }
 
-.img:hover, .img_name:hover{
+.img:hover{
   cursor:pointer;
 }
 
@@ -66,4 +67,8 @@
   color:rgb(255, 104, 129);
   font-style:italic;  
   padding-top:0px;
+}
+
+.img_enlarge {
+  transform :scale(1.5);
 }
