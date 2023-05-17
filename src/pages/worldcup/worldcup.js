@@ -89,7 +89,8 @@ export const WorldCup = () => {
     return <p>로딩중입니다</p>;
 
   const handleClick = (img, rankFunction) => {
-    setSelectedImg(img.id);
+    if( selectedImg !== null ) return;
+    setSelectedImg(img.id); 
     rankFunction();
     setTimeout(() => {
       setNextGame((prev) => prev.concat(img));
